@@ -20,7 +20,10 @@ $response = $cache->get( 'album_'.lcfirst( $album ) );
 if(empty($response)){
 	$response 	= $request->getAlbumImages( $album );
 	// I've set the case to represent 45minutes as this equals the expiry time for the download image link
-	$cache->set('album_'.lcfirst( $album ) ,$response,2700);
+
+	if(!empty($response->success)){
+			$cache->set('album_'.lcfirst( $album ) ,$response,2700);
+	}
 }
 
 
@@ -50,22 +53,14 @@ if(empty($response)){
 			$class = '';
 
 			if ( 0 == ( $i - 1 ) % 4 )
-				$class = ' first first-2-cols';
+				$class = ' first';
 
 			if ( 0 == $i % 4 )
-				$class = ' last last-2-cols';
-
-			if ( 0 == ( $i - 1 ) % 2 && ! ( 0 == ( $i - 1 ) % 4 ) )
-				$class .= ' first-2-cols';
-
-			if ( ( 0 == $i % 2 ) && ! ( 0 == $i % 4 ) )
-				$class .= ' last-2-cols';
+				$class = ' last';
 
 			if ( 4 >= $i )
 				$class .= ' first-row';
 
-			if ( 2 >= $i )
-				$class .= ' first-row-2-cols';
 
 		?>
 
@@ -76,13 +71,11 @@ if(empty($response)){
 						<span class="narnoo-link-container">
 							<span class="narnoo-link-wrap gallery-item">
 								<a class="narnoo-link narnoo-highres link-id-<?php echo $i ?>" href="<?php echo $img->xlarge_image_path; ?>">
-									<i class="fa fa-search-plus" aria-hidden="true"></i>
 									View
 								</a>
 							</span>
 							<span class="narnoo-link-wrap">
 								<a class="narnoo-link narnoo-download link-id-<?php echo $i ?>" href="<?php echo $img->download_link; ?>">
-									<i class="fa fa-download" aria-hidden="true"></i>
 									Download
 								</a>
 							</span>
