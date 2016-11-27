@@ -43,20 +43,41 @@ if(empty($response)){
 
 	<ul class="narnoo-gallery">
 
-	<?php foreach ($response->brochures as $map) { ?>
+		<?php
 
-			<?php if(!empty( $map->success ) ) {  //Only show successful responses ?>
+		$i = 0;
+		foreach ($response->brochures as $map) {
 
-		 	<li class="narnoo-img">
-				<a aria-hidden="true" rel="lightbox" class="narnoo-highres link-id-3" href="<?php echo $map->preview_pages[0]; ?>">
-					<img class="narnoo-thumbnail image-id-2" width="400" height="300" alt="Map" src="<?php echo $map->image_800_path; ?>" title="<?php echo $map->caption; ?>" data-map-id="<?php echo $map->brochure_id; ?>">
-				</a>
-			</li>
+			$i++;
+			$class = '';
+
+			if ( 0 == ( $i - 1 ) % 3 )
+				$class = ' first';
+
+			if ( 0 == $i % 3 )
+				$class = ' last';
+
+			if ( 3 >= $i )
+				$class .= ' first-row';
+
+			if ( 0 == ( $i - 1 ) % 2 )
+				$class .= ' first-2-cols';
+
+			if ( ( 0 == $i % 2 ) )
+				$class .= ' last-2-cols';
+
+			if ( 2 >= $i )
+				$class .= ' first-row-2-cols';
+
+			if(!empty($map->success)) { //Only show successful responses
+
+		?>
+
+			<li class="narnoo-img-wrap<?php echo $class; ?>"><h2><?php echo $map->brochure_caption; ?></h2><div class="narnoo-img"><img class="narnoo-thumbnail image-id-<?php echo $i ?>" src="<?php echo $map->xcrop_image_path; ?>" width="300" height="238" title="<?php echo $map->brochure_caption; ?>" data-map-id="<?php echo $map->brochure_id; ?>" alt="Map"><div class="narnoo-img-cover"><span class="narnoo-link-container"><span class="narnoo-link-wrap"><a class="narnoo-link narnoo-highres link-id-<?php echo $i ?>" href="<?php echo $map->zoom_pages[0]; ?>"><i class="fa fa-search-plus" aria-hidden="true"></i>View</a></span><span class="narnoo-link-wrap"><a class="narnoo-link narnoo-download link-id-<?php echo $i ?>" href="<?php echo $map->file_path_to_pdf; ?>"><i class="fa fa-download" aria-hidden="true"></i>Download</a></span></span></div></div></li>
 
 			<?php } ?>
 
 		<?php } ?>
-
 
 	</ul>
 

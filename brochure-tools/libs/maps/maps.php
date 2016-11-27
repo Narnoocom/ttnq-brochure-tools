@@ -66,6 +66,15 @@ if(empty($response)){
 			if ( 3 >= $i )
 				$class .= ' first-row';
 
+			if ( 0 == ( $i - 1 ) % 2 )
+				$class .= ' first-2-cols';
+
+			if ( 0 == $i % 2 )
+				$class .= ' last-2-cols';
+
+			if ( 2 >= $i )
+				$class .= ' first-row-2-cols';
+
 			$requestMapDownload 	= Brochure_Tools_Helper::init_api('distributor');
 			$responseMapDownload 	= $requestMapDownload->downloadBrochure( $map->brochure_id );
 
@@ -73,11 +82,12 @@ if(empty($response)){
 
 			<li class="narnoo-img-wrap<?php echo $class; ?>">
 				<div class="narnoo-img">
-					<img class="narnoo-thumbnail image-id-<?php echo $i ?>" src="<?php echo $map->preview_image_path; ?>" width="300" height="238" title="<?php echo $map->caption; ?>" data-map-id="<?php echo $map->brochure_id; ?>" alt="Map">
+					<img class="narnoo-thumbnail image-id-<?php echo $i ?>" src="<?php echo $map->xcrop_image_path; ?>" width="300" height="238" title="<?php echo $map->caption; ?>" data-map-id="<?php echo $map->brochure_id; ?>" alt="Map">
 					<div class="narnoo-img-cover">
 						<span class="narnoo-link-container">
 							<span class="narnoo-link-wrap">
 								<a class="narnoo-link narnoo-highres link-id-<?php echo $i ?>" href="<?php echo $map->preview_pages[0]; ?>">
+									<i class="fa fa-search-plus" aria-hidden="true"></i>
 									View
 								</a>
 							</span>
@@ -89,6 +99,7 @@ if(empty($response)){
 							}else{
 							?>
 								<a class="narnoo-link narnoo-download link-id-<?php echo $i ?>" href="<?php echo $responseMapDownload->download_brochure_file; ?>">
+									<i class="fa fa-download" aria-hidden="true"></i>
 									Download
 								</a>
 							<?php

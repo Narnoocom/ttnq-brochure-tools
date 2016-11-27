@@ -5,12 +5,14 @@ extract( shortcode_atts( array(
 	'region' 		=> '', 	// Region [required]
 	'location'		=> '',	// [required]
 	'type' 			=> '',  // [required]
-	'experience'	=> NULL	// [optional]
+	'experience'	=> NULL,// [optional]
+	'english'		=> 'yes',	// [optional]
 
 ), $atts ) );
 
 /*
 *	@date_modified: 29-09-16
+*	@date_modified: 28-11-16
 * @change log: Edited location as this doesn't reflect with experiences.
 */
 
@@ -42,29 +44,6 @@ if(empty($response)){
 }
 
 /*
-?>
-
-<div>
-<?php
-
-//Lets do some error checking of the response - 1 ) No response returned
-
-if(empty($response)){
-			echo $error_msg_prefix . __( 'There has been an error requesting this information', NARNOO_BROCHURE_TOOLS_I18N_DOMAIN );
-			return;
-}elseif(empty( $response->success )) {
-			echo $error_msg_prefix . __( 'There are no results for this request - '.$response->message, NARNOO_BROCHURE_TOOLS_I18N_DOMAIN );
-			return;
-}else{
-?>
-<pre>
-<?php print_r($response); ?>
-</pre>
-</div>
-<?
-}*/
-
-
 $error = 0;
 $output = '<div>';
 

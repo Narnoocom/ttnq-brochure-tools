@@ -3,8 +3,10 @@ $error_msg_prefix = __( 'Brochure Tools product information shortcode error: ', 
 
 extract( shortcode_atts( array(
 	'operator' 	=> '', 	// Operator ID [required]
+	'operator' 	=> '', 	// Product ID [required]
 	'region'	=> '',	// [required]
-	'images' 	=> 8
+	'images' 	=> 8,
+	'english'	=> 'yes',
 ), $atts ) );
 
 //Check for required attributes - If non output an error message
@@ -109,8 +111,10 @@ if(empty($response)){
 }else{
 ?>
 
-<h1><?= $response->business_name; ?></h1>
-
+<div class="heading-title-strikethrough">
+	<span class="title-strikethrough">&nbsp;</span>
+	<h1><?= $response->business_name; ?></h1>
+</div>
 <div class="narnoo-gallery-wrap">
 
 	<ul class="narnoo-gallery gallery">
@@ -118,19 +122,31 @@ if(empty($response)){
 		<?php
 
 		$i = 0;
-	  foreach ($gallery_array as $img) {
-				$i++;
+		foreach ($gallery_array as $img) {
 
+			$i++;
 			$class = '';
 
 			if ( 0 == ( $i - 1 ) % 4 )
-				$class = ' first';
+				$class = ' first first-2-cols';
 
 			if ( 0 == $i % 4 )
-				$class = ' last';
+				$class = ' last last-2-cols';
+
+			if ( 0 == ( $i - 1 ) % 2 && ! ( 0 == ( $i - 1 ) % 4 ) )
+				$class .= ' first-2-cols';
+
+			if ( ( 0 == $i % 2 ) && ! ( 0 == $i % 4 ) )
+				$class .= ' last-2-cols';
 
 			if ( 4 >= $i )
 				$class .= ' first-row';
+
+			if ( 2 >= $i )
+				$class .= ' first-row-2-cols';
+
+			//$requestImageDownload	= Brochure_Tools_Helper::init_api('operator');
+			//$responseImageDownload	= $requestImageDownload->downloadImage( $response->narnoo_id, $img->image_id );
 
 		?>
 
@@ -140,18 +156,23 @@ if(empty($response)){
 					<div class="narnoo-img-cover">
 						<span class="narnoo-link-container">
 							<span class="narnoo-link-wrap gallery-item">
-								<a class="narnoo-link narnoo-highres link-id-<?php echo $i ?>" href="<?php echo $img['media_large']; ?>" data-featherlight="image">
+								<a class="narnoo-link narnoo-highres link-id-<?php echo $i ?>" href="<?php echo $img['media_large']; ?>">
+									<i class="fa fa-search-plus" aria-hidden="true"></i>
 									View
 								</a>
 							</span>
 							<span class="narnoo-link-wrap">
+
 								<a class="narnoo-link narnoo-download link-id-<?php echo $i ?>" href="<?php echo $img['download_link']; ?>">
+									<i class="fa fa-download" aria-hidden="true"></i>
 									Download
 								</a>
+
 							</span>
 						</span>
 					</div>
 				</div>
+				<div class="narnoo-caption"><?php echo $img['media_caption']; ?></div>
 			</li>
 
 		<?php } ?>
@@ -159,50 +180,54 @@ if(empty($response)){
 	</ul>
 
 </div>
-<h2>Product Details</h2>
-<div>
-<table>
-	<tr>
-		<td><strong>Business Name:</strong></td>
-		<td><?= $response->business_name; ?> </td>
-	</tr>
-	<tr>
-		<td><strong>Product Name:</strong></td>
-		<td><?= $response->product_name; ?> </td>
-	</tr>
-	<tr>
-		<td><strong>Product Location:</strong></td>
-		<td><?= $response->business_location; ?> </td>
-	</tr>
-	<tr>
-		<td><strong>Web Address:</strong></td>
-		<td><?= $response->business_url; ?></td>
-	</tr>
-	<tr>
-		<td><strong>Contact Person:</strong></td>
-		<td> <?= $response->business_contact; ?></td>
-	</tr>
-	<tr>
-		<td><strong>Contact Title:</strong></td>
-		<td> <?= $response->contact_title; ?></td>
-	</tr>
-	<tr>
-		<td><strong>Email:</strong></td>
-		<td> <?= $response->business_email; ?></td>
-	</tr>
-	<tr>
-		<td><strong>Telephone:</strong></td>
-		<td> <?= $response->business_phone; ?></td>
-	</tr>
-</table>
+
+<h2><?php echo __( 'Product Details', NARNOO_BROCHURE_TOOLS_I18N_DOMAIN ); ?></h2>
+<div class="narnoo-pd-table">
+	<div class="narnoo-pd-row">
+		<div class="narnoo-pd-col-1"><strong><?php echo __( 'Business Name:', NARNOO_BROCHURE_TOOLS_I18N_DOMAIN ); ?></strong></div>
+		<div class="narnoo-pd-col-2"><?php echo $response->business_name; ?> </div>
+	</div>
+	<div class="narnoo-pd-row">
+		<div class="narnoo-pd-col-1"><strong><?php echo __( 'Product Name:', NARNOO_BROCHURE_TOOLS_I18N_DOMAIN ); ?></strong></div>
+		<div class="narnoo-pd-col-2"><?php echo $response->product_name; ?> </div>
+	</div>
+	<div class="narnoo-pd-row">
+		<div class="narnoo-pd-col-1"><strong><?php echo __( 'Product Location:', NARNOO_BROCHURE_TOOLS_I18N_DOMAIN ); ?></strong></div>
+		<div class="narnoo-pd-col-2"><?php echo $response->business_location; ?> </div>
+	</div>
+	<div class="narnoo-pd-row">
+		<div class="narnoo-pd-col-1"><strong><?php echo __( 'Web Address:', NARNOO_BROCHURE_TOOLS_I18N_DOMAIN ); ?></strong></div>
+		<div class="narnoo-pd-col-2"><a href="<?php echo $response->business_url; ?>" target="_blank"><?php echo $response->business_url; ?></a></div>
+	</div>
+	<div class="narnoo-pd-row">
+		<div class="narnoo-pd-col-1"><strong><?php echo __( 'Contact Person:', NARNOO_BROCHURE_TOOLS_I18N_DOMAIN ); ?></strong></div>
+		<div class="narnoo-pd-col-2"><?php echo $response->business_contact; ?></div>
+	</div>
+	<div class="narnoo-pd-row">
+		<div class="narnoo-pd-col-1"><strong><?php echo __( 'Position:', NARNOO_BROCHURE_TOOLS_I18N_DOMAIN ); ?></strong></div>
+		<div class="narnoo-pd-col-2"><?php echo $response->contact_title; ?></div>
+	</div>
+	<div class="narnoo-pd-row">
+		<div class="narnoo-pd-col-1"><strong><?php echo __( 'Email:', NARNOO_BROCHURE_TOOLS_I18N_DOMAIN ); ?></strong></div>
+		<div class="narnoo-pd-col-2"><a href="mailto:<?php echo $response->business_email; ?>" target="_blank"><?php echo $response->business_email; ?></a></div>
+	</div>
+	<div class="narnoo-pd-row">
+		<div class="narnoo-pd-col-1"><strong><?php echo __( 'Telephone:', NARNOO_BROCHURE_TOOLS_I18N_DOMAIN ); ?></strong></div>
+		<div class="narnoo-pd-col-2"><?php echo $response->business_phone; ?></div>
+	</div>
+	<div class="narnoo-pd-row">
+		<div class="narnoo-pd-col-1"><strong><?php echo __( 'Postal Address:', NARNOO_BROCHURE_TOOLS_I18N_DOMAIN ); ?></strong></div>
+		<div class="narnoo-pd-col-2"><?php echo $response->business_postal_address; ?></div>
+	</div>
 </div>
+
 <div>
-<h2>Company Biography</h2>
-<?php if(lcfirst( $region ) == 'china'){ ?>
+<h2><?php echo __( 'Company Biography', NARNOO_BROCHURE_TOOLS_I18N_DOMAIN ); ?></h2>
+<?php if(lcfirst( $region ) == 'china' && 'yes' != $english){ ?>
 
   <p> <?php echo $response->operator_company_biography->chinese->large->text; ?></p>
 
-  <?php }elseif(lcfirst( $region ) == 'japan'){ ?>
+  <?php }elseif(lcfirst( $region ) == 'japan' && 'yes' != $english){ ?>
 
   <p> <?php echo $response->operator_company_biography->japanese->large->text; ?></p>
 
@@ -213,12 +238,12 @@ if(empty($response)){
   <?php } ?>
 </div>
 <div>
-<h2>Product Description - Small Description</h2>
-<?php if(lcfirst( $region ) == 'china'){ ?>
+<h2><?php echo __( 'Product Description - Large Description', NARNOO_BROCHURE_TOOLS_I18N_DOMAIN ); ?></h2>
+<?php if(lcfirst( $region ) == 'china' && 'yes' != $english){ ?>
 
   <p> <?php echo $response->operator_biography->chinese->small->text; ?></p>
 
-  <?php }elseif(lcfirst( $region ) == 'japan'){ ?>
+  <?php }elseif(lcfirst( $region ) == 'japan' && 'yes' != $english){ ?>
 
   <p> <?php echo $response->operator_biography->japanese->small->text; ?></p>
 
@@ -229,12 +254,12 @@ if(empty($response)){
   <?php } ?>
 </div>
 <div>
-<h2>Product Description - Large Description</h2>
-<?php if(lcfirst( $region ) == 'china'){ ?>
+<h2><?php echo __( 'Product Description - Large Description', NARNOO_BROCHURE_TOOLS_I18N_DOMAIN ); ?></h2>
+<?php if(lcfirst( $region ) == 'china' && 'yes' != $english){ ?>
 
   <p> <?php echo $response->operator_biography->chinese->large->text; ?></p>
 
-  <?php }elseif(lcfirst( $region ) == 'japan'){ ?>
+  <?php }elseif(lcfirst( $region ) == 'japan' && 'yes' != $english){ ?>
 
   <p> <?php echo $response->operator_biography->japanese->large->text; ?></p>
 
@@ -245,6 +270,4 @@ if(empty($response)){
   <?php } ?>
 </div>
 <?
-
-//print_r($response);
 }
