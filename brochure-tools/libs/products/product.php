@@ -2,7 +2,6 @@
 $error_msg_prefix = __( 'Brochure Tools product information shortcode error: ',  NARNOO_BROCHURE_TOOLS_I18N_DOMAIN );
 
 extract( shortcode_atts( array(
-	'operator' 	=> '', 	// Operator ID [required]
 	'operator' 	=> '', 	// Product ID [required]
 	'region'	=> '',	// [required]
 	'images' 	=> 8,

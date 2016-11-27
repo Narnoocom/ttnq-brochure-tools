@@ -11,7 +11,6 @@ extract( shortcode_atts( array(
 ), $atts ) );
 
 /*
-*	@date_modified: 29-09-16
 *	@date_modified: 28-11-16
 * @change log: Edited location as this doesn't reflect with experiences.
 */
@@ -43,7 +42,6 @@ if(empty($response)){
 
 }
 
-/*
 $error = 0;
 $output = '<div>';
 
