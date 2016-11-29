@@ -62,4 +62,4 @@ if(empty($response)){
 
 $output .= '</div>';
 
-echo apply_filters( 'product_listings_output', $output, $response, $error );
+echo apply_filters( 'product_listings_output', $output, $response, $atts, $error );
