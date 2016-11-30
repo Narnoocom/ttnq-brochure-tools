@@ -237,7 +237,7 @@ if(empty($response)){
   <?php } ?>
 </div>
 <div>
-<h2><?php echo __( 'Product Description - Large Description', NARNOO_BROCHURE_TOOLS_I18N_DOMAIN ); ?></h2>
+<h2><?php echo __( 'Product Description - Small', NARNOO_BROCHURE_TOOLS_I18N_DOMAIN ); ?></h2>
 <?php if(lcfirst( $region ) == 'china' && 'yes' != $english){ ?>
 
   <p> <?php echo $response->operator_biography->chinese->small->text; ?></p>
@@ -253,7 +253,7 @@ if(empty($response)){
   <?php } ?>
 </div>
 <div>
-<h2><?php echo __( 'Product Description - Large Description', NARNOO_BROCHURE_TOOLS_I18N_DOMAIN ); ?></h2>
+<h2><?php echo __( 'Product Description - Large', NARNOO_BROCHURE_TOOLS_I18N_DOMAIN ); ?></h2>
 <?php if(lcfirst( $region ) == 'china' && 'yes' != $english){ ?>
 
   <p> <?php echo $response->operator_biography->chinese->large->text; ?></p>
