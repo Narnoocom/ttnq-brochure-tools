@@ -59,8 +59,6 @@ class Brochure_tools {
 
 		register_uninstall_hook( __FILE__, 		array( 'BrochureTools', 'uninstall' ) );
 
-		//add_action( 'init', 					array( &$this, 'create_custom_post_types' ) );
-
 		if ( is_admin() ) {
 
 			add_action( 'plugins_loaded', 		array( &$this, 'load_language_file' ) );
