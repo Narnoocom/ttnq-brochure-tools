@@ -3,7 +3,7 @@
 Plugin Name: Brochure Tools
 Plugin URI: https://www.narnoo.com/
 Description: A Brochure Tools plugin to interact with Narnoo.com webservice via PHP SDK 2.0.
-Version: 1.1.1
+Version: 2.0
 Author: Narnoo Wordpress developer
 Author URI: http://www.narnoo.com/
 License: GPL2 or later
