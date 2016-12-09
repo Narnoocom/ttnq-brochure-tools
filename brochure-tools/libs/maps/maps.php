@@ -8,22 +8,35 @@ extract( shortcode_atts( array(
 ), $atts ) );
 
 //Check for required attributes - If non output an error message
-if( empty($region) || empty($location ) ){
+if( empty($location ) ){
 
-	echo $error_msg_prefix . __( 'Need to set a region and a location', NARNOO_BROCHURE_TOOLS_I18N_DOMAIN );
+	echo $error_msg_prefix . __( 'Need to set a location', NARNOO_BROCHURE_TOOLS_I18N_DOMAIN );
 	return;
+}
+
+if( empty($region)){
+	$region = NULL;
+	$response = $cache->get('maps_'.lcfirst( $location ).'_'.$number);
+}else{
+	$response = $cache->get('maps_'.lcfirst( $region ).'_'.lcfirst( $location ).'_'.$number);
+	
 }
 
 $request 	= Brochure_Tools_Helper::init_api('depga');
 $cache	 	= Brochure_Tools_Helper::init_cache();
 
-$response = $cache->get('maps_'.lcfirst( $region ).'_'.lcfirst( $location ).'_'.$number);
 
 if(empty($response)){
 	$response 	= $request->getMaps( $region,$location,$number );
 
 	if(!empty($response->success)){
-		$cache->set('maps_'.lcfirst( $region ).'_'.lcfirst( $location ).'_'.$number,$response,14400);
+
+		if( empty($region)){			
+			$cache->set('maps_'.lcfirst( $location ).'_'.$number,$response,14400);
+		}else{
+			$cache->set('maps_'.lcfirst( $region ).'_'.lcfirst( $location ).'_'.$number,$response,14400);
+		}
+
 	}
 }
 
