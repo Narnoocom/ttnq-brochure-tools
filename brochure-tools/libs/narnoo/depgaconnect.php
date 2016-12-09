@@ -80,16 +80,19 @@ class Depgaconnect extends WebClient {
     }
 
 
-    public function getMaps( $region,$location,$bro_num = NULL ) {
+    public function getMaps( $region=NULL,$location,$bro_num = NULL ) {
 
         $method = 'depga_maps';
 
+
         $params = array(
-            'region'        => $region,
             'location'      => $location,
             'maps'          => $bro_num
         );
 
+        if( !empty($region) ){
+            $params['region'] = $region;
+        }
 
         $this->setUrl( $this->url . $method .'?'.http_build_query( $params )  );
         $this->setGet( );
