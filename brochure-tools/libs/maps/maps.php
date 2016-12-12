@@ -14,16 +14,16 @@ if( empty($location ) ){
 	return;
 }
 
+$request 	= Brochure_Tools_Helper::init_api('depga');
+$cache	 	= Brochure_Tools_Helper::init_cache();
+
 if( empty($region)){
 	$region = NULL;
 	$response = $cache->get('maps_'.lcfirst( $location ).'_'.$number);
 }else{
 	$response = $cache->get('maps_'.lcfirst( $region ).'_'.lcfirst( $location ).'_'.$number);
-	
-}
 
-$request 	= Brochure_Tools_Helper::init_api('depga');
-$cache	 	= Brochure_Tools_Helper::init_cache();
+}
 
 
 if(empty($response)){
@@ -31,7 +31,7 @@ if(empty($response)){
 
 	if(!empty($response->success)){
 
-		if( empty($region)){			
+		if( empty($region)){
 			$cache->set('maps_'.lcfirst( $location ).'_'.$number,$response,14400);
 		}else{
 			$cache->set('maps_'.lcfirst( $region ).'_'.lcfirst( $location ).'_'.$number,$response,14400);
